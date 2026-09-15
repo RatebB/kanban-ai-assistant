@@ -80,7 +80,7 @@ Règles :
 ## Lancer le projet en local
 
 ```bash
-git clone https://github.com/ton-pseudo/nom-repo.git
+git clone https://github.com/RatebB/kanban-ai-assistant.git
 cd nom-repo
 npm install
 ```
