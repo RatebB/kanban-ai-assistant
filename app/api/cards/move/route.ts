@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { z } from "zod";
 
 const requestSchema = z.object({
@@ -39,10 +39,11 @@ export async function PATCH(request: Request) {
     );
   }
 
-
+    const supabase = getSupabase();
   const results = await Promise.all(
+    
     updates.map((u) =>
-      supabase
+      supabase 
         .from("cards")
         .update({ column_id: u.column_id, position: u.position })
         .eq("id", u.id)

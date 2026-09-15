@@ -2,7 +2,7 @@
 
 Un board Kanban avec drag & drop, où une IA aide à découper les tâches complexes en sous-tâches actionnables en un clic.
 
-Developpement en cours 
+Developpement en cours.....
 <!--![Démo](./demo.gif)
  Remplace par un GIF de démo : enregistre-toi en train d'utiliser l'app avec un outil comme Kap ou ScreenToGif
 -->

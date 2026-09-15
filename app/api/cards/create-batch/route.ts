@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { z } from "zod";
 
 const requestSchema = z.object({
@@ -24,7 +24,7 @@ console.log("Payload reçu:", JSON.stringify(body, null, 2));
 
   const { columnId, subtasks } = parsed.data;
 
-  // Récupère la position max actuelle pour enchaîner proprement
+  const supabase = getSupabase()
   const { data: existing } = await supabase
     .from("cards")
     .select("position")
