@@ -38,44 +38,52 @@ export function Board({ initialBoard }: { initialBoard: BoardType }) {
   }
 
   function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    setActiveCard(null);
-    if (!over) return;
+  const { active, over } = event;
+  setActiveCard(null);
+  if (!over) return;
 
-    const activeId = active.id as string;
-    const overId = over.id as string;
-    if (activeId === overId) return;
+  const activeId = active.id as string;
+  const overId = over.id as string;
+  if (activeId === overId) return;
 
-    const sourceColumn = findColumnByCardId(activeId);
-    const targetColumn =
-      findColumnByCardId(overId) ?? board.columns.find((col) => col.id === overId);
+  const sourceColumn = findColumnByCardId(activeId);
+  const targetColumn =
+    findColumnByCardId(overId) ?? board.columns.find((col) => col.id === overId);
 
-    if (!sourceColumn || !targetColumn) return;
+  if (!sourceColumn || !targetColumn) return;
 
-    let newPosition = 0;
+  let finalSourceCardIds: string[] = [];
+  let finalTargetCardIds: string[] = [];
 
-    setBoard((prev) => {
-      const newColumns = prev.columns.map((col) => ({ ...col, cards: [...col.cards] }));
-      const source = newColumns.find((c) => c.id === sourceColumn.id)!;
-      const target = newColumns.find((c) => c.id === targetColumn.id)!;
+  setBoard((prev) => {
+    const newColumns = prev.columns.map((col) => ({ ...col, cards: [...col.cards] }));
+    const source = newColumns.find((c) => c.id === sourceColumn.id)!;
+    const target = newColumns.find((c) => c.id === targetColumn.id)!;
 
-      const cardIndex = source.cards.findIndex((c) => c.id === activeId);
-      const [movedCard] = source.cards.splice(cardIndex, 1);
+    const cardIndex = source.cards.findIndex((c) => c.id === activeId);
+    const [movedCard] = source.cards.splice(cardIndex, 1);
 
-      const overIndex = target.cards.findIndex((c) => c.id === overId);
-      const insertIndex = overIndex >= 0 ? overIndex : target.cards.length;
-      target.cards.splice(insertIndex, 0, movedCard);
+    const overIndex = target.cards.findIndex((c) => c.id === overId);
+    const insertIndex = overIndex >= 0 ? overIndex : target.cards.length;
+    target.cards.splice(insertIndex, 0, movedCard);
 
-      newPosition = insertIndex;
-      return { ...prev, columns: newColumns };
-    });
+    finalSourceCardIds = source.cards.map((c) => c.id);
+    finalTargetCardIds = target.cards.map((c) => c.id);
 
-    fetch("/api/cards/move", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cardId: activeId, targetColumnId: targetColumn.id, newPosition }),
-    }).catch((err) => console.error("Erreur de persistance:", err));
-  }
+    return { ...prev, columns: newColumns };
+  });
+
+  fetch("/api/cards/move", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      sourceColumnId: sourceColumn.id,
+      targetColumnId: targetColumn.id,
+      sourceCardIds: finalSourceCardIds,
+      targetCardIds: finalTargetCardIds,
+    }),
+  }).catch((err) => console.error("Erreur de persistance:", err));
+}
 
   async function handleAcceptSubtasks(subtasks: Subtask[]) {
     if (!breakdownTarget) return;
