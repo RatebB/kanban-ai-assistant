@@ -1,10 +1,11 @@
 import { Board } from "@/components/Board";
-import { supabase } from "@/lib/supabase";
+import { getSupabase  } from "@/lib/supabase";
 import type { Board as BoardType } from "@/types/board";
 
 const BOARD_ID = "11111111-1111-1111-1111-111111111111";
 
 async function getBoard(): Promise<BoardType> {
+  const supabase = getSupabase();
   const { data: board } = await supabase
     .from("boards")
     .select("id, name")

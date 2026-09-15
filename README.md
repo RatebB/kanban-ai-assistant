@@ -5,8 +5,8 @@ Un board Kanban avec drag & drop, où une IA aide à découper les tâches compl
 Developpement en cours 
 <!--![Démo](./demo.gif)
  Remplace par un GIF de démo : enregistre-toi en train d'utiliser l'app avec un outil comme Kap ou ScreenToGif
-
-**[Voir la démo live →](https://ton-projet.vercel.app)** -->
+-->
+**[Voir la démo live →](https://kanban-ai-assistant.vercel.app/)** 
 
 ## Pourquoi ce projet
 
