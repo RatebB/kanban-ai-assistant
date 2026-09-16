@@ -3,6 +3,7 @@ import { InviteMemberForm } from "@/components/InviteMemberForm";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import type { Board as BoardType } from "@/types/board";
+import { DeleteProjectButton } from "@/components/DeleteProjectButton";
 
 async function getBoard(projectId: string): Promise<BoardType | null> {
   const supabase = await createClient();
@@ -59,6 +60,9 @@ export default async function ProjectPage({
       <div className="max-w-3xl mx-auto pt-6 px-6">
         <InviteMemberForm projectId={id} isOwner={membership?.role === "owner"} />
       </div>
+      <div className="flex items-center justify-between mb-4">
+      <DeleteProjectButton projectId={id} isOwner={membership?.role === "owner"} />
+</div>
       <Board initialBoard={board} />
     </div>
   );

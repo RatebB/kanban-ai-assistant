@@ -16,7 +16,7 @@ import { Card } from "./Card";
 import { BreakdownModal } from "./BreakdownModal";
 import type { Board as BoardType, Card as CardType } from "@/types/board";
 import type { Subtask } from "@/lib/schemas";
-
+import { createClient } from "@/lib/supabase/client";
 export function Board({ initialBoard }: { initialBoard: BoardType }) {
   const [board, setBoard] = useState(initialBoard);
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
@@ -133,6 +133,24 @@ function handleCardAdded(columnId: string, card: CardType) {
     ),
   }));
 }
+async function handleDeleteCard(cardId: string) {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("cards").delete().eq("id", cardId);
+
+  if (error) {
+    console.error("Erreur suppression carte:", error.message);
+    return;
+  }
+
+  setBoard((prev) => ({
+    ...prev,
+    columns: prev.columns.map((col) => ({
+      ...col,
+      cards: col.cards.filter((c) => c.id !== cardId),
+    })),
+  }));
+}
   return (
     <DndContext
       sensors={sensors}
@@ -142,11 +160,11 @@ function handleCardAdded(columnId: string, card: CardType) {
     >
       <div className="flex gap-4 overflow-x-auto p-6">
         {board.columns.map((column) => (
-          <Column key={column.id} column={column} onBreakdown={setBreakdownTarget} onCardAdded={handleCardAdded} />
+          <Column key={column.id} column={column} onBreakdown={setBreakdownTarget} onCardAdded={handleCardAdded} onDelete={handleDeleteCard}/>
         ))}
       </div>
 
-      <DragOverlay>{activeCard ? <Card card={activeCard} onBreakdown={() => {}} /> : null}</DragOverlay>
+      <DragOverlay>{activeCard ? <Card card={activeCard} onBreakdown={() => { } } onDelete={handleDeleteCard} /> : null} </DragOverlay>
 
       {breakdownTarget && (
         <BreakdownModal
