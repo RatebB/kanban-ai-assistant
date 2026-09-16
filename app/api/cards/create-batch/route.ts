@@ -17,8 +17,7 @@ const requestSchema = z.object({
 export async function POST(request: Request) {
   const body = await request.json();
   const parsed = requestSchema.safeParse(body);
-console.log("Payload reçu:", JSON.stringify(body, null, 2));
-  if (!parsed.success) {
+   if (!parsed.success) {
     return NextResponse.json({ error: "Données invalides." }, { status: 400 });
   }
 

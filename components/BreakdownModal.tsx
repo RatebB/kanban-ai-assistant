@@ -59,7 +59,7 @@ export function BreakdownModal({ cardTitle, onClose, onAccept }: Props) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-lg">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">
+        <h2 className="text-[15px] font-semibold text-[#1A1A17]">
           Découper cette tâche
         </h2>
         <p className="text-sm text-gray-500 mb-4">"{cardTitle}"</p>
@@ -67,7 +67,7 @@ export function BreakdownModal({ cardTitle, onClose, onAccept }: Props) {
         {subtasks.length === 0 && !loading && (
           <button
             onClick={generateBreakdown}
-            className="w-full bg-gray-900 text-white rounded-lg py-2 text-sm font-medium"
+            className="w-full bg-[#3D5A4C] text-white rounded-md py-2 text-[13px] font-medium hover:bg-[#324b3f] transition-colors"
           >
             Générer des sous-tâches
           </button>

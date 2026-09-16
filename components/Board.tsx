@@ -123,7 +123,16 @@ export function Board({ initialBoard }: { initialBoard: BoardType }) {
       ),
     }));
   }
-
+function handleCardAdded(columnId: string, card: CardType) {
+  setBoard((prev) => ({
+    ...prev,
+    columns: prev.columns.map((col) =>
+      col.id === columnId
+        ? { ...col, cards: [...col.cards, card] }
+        : col
+    ),
+  }));
+}
   return (
     <DndContext
       sensors={sensors}
@@ -133,7 +142,7 @@ export function Board({ initialBoard }: { initialBoard: BoardType }) {
     >
       <div className="flex gap-4 overflow-x-auto p-6">
         {board.columns.map((column) => (
-          <Column key={column.id} column={column} onBreakdown={setBreakdownTarget} />
+          <Column key={column.id} column={column} onBreakdown={setBreakdownTarget} onCardAdded={handleCardAdded} />
         ))}
       </div>
 
