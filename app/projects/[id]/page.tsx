@@ -59,10 +59,9 @@ export default async function ProjectPage({
     <div>
       <div className="max-w-3xl mx-auto pt-6 px-6">
         <InviteMemberForm projectId={id} isOwner={membership?.role === "owner"} />
-      </div>
-      <div className="flex items-center justify-between mb-4">
       <DeleteProjectButton projectId={id} isOwner={membership?.role === "owner"} />
-</div>
+      </div>
+ 
       <Board initialBoard={board} />
     </div>
   );

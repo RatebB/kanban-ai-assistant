@@ -27,7 +27,7 @@ export function DeleteProjectButton({ projectId, isOwner }: { projectId: string;
   return (
     <button
       onClick={handleDelete}
-      className="text-[12px] text-[#5B5850] hover:text-red-600 transition-colors"
+      className="bg-gray-900 text-[12px] text-[#fff] hover:text-red-600 rounded-lg px-4 py-2 text-sm font-medium disabled:opacity-40"
     >
       Supprimer le projet
     </button>
